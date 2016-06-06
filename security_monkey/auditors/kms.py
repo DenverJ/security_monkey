@@ -19,7 +19,6 @@
 """
 from security_monkey.auditor import Auditor
 from security_monkey.watchers.kms import KMS
-from security_monkey.common.utils import check_rfc_1918
 import json
 
 class KMSAuditor(Auditor):
