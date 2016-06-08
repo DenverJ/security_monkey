@@ -174,8 +174,6 @@ class KMS(Watcher):
                     # filter the list of all aliases and save them with the key they're for
                     config[u"Aliases"] = [a.get("AliasName") for a in aliases if a.get("TargetKeyId") == key_id]
 
-                    config[u"Foo"] = "Bar"
-
                     item = KMSMasterKey(region=region.name, account=account, name=key_id, config=dict(config))
                     item_list.append(item)
 
