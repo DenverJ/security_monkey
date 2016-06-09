@@ -21,6 +21,7 @@ from security_monkey.auditor import Auditor
 from security_monkey.watchers.kms import KMS
 import json
 
+
 class KMSAuditor(Auditor):
     index = KMS.index
     i_am_singular = KMS.i_am_singular

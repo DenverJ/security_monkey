@@ -27,6 +27,7 @@ from security_monkey import app
 from dateutil.tz import tzutc
 import json
 
+
 class KMS(Watcher):
     index = 'kms'
     i_am_singular = 'KMS Master Key'
