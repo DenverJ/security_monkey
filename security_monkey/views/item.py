@@ -260,9 +260,11 @@ class ItemList(AuthenticatedService):
                 if not issue.justified:
                     unjustified_issue_score += issue.score
 
-            first_seen = str(item.revisions.order_by(ItemRevision.date_created.asc()).first().date_created)
-            last_seen = str(item.revisions.first().date_created)
-            active = item.revisions.first().active
+            # Remove default ordering of revisions before reversing order
+            first_seen = str(item.revisions.order_by(None).order_by(ItemRevision.date_created.asc()).first().date_created)
+            active_record = item.revisions.first()
+            last_seen = str(active_record.date_created)
+            active = active_record.active
 
             item_marshaled = marshal(item.__dict__, ITEM_FIELDS)
             item_marshaled = dict(item_marshaled.items() +

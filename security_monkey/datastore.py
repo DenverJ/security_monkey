@@ -27,7 +27,7 @@ from auth.models import RBACUserMixin
 from security_monkey import db, app
 
 from sqlalchemy.dialects.postgresql import JSON
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, Unicode
+from sqlalchemy import Column, Integer, String, DateTime, Boolean, Unicode, Index
 from sqlalchemy.dialects.postgresql import CIDR
 from sqlalchemy.schema import ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
@@ -190,10 +190,13 @@ class ItemRevision(db.Model):
     id = Column(Integer, primary_key=True)
     active = Column(Boolean())
     config = deferred(Column(JSON))
-    date_created = Column(DateTime(), default=datetime.datetime.utcnow, nullable=False, index=True)
-    date_last_ephemeral_change = Column(DateTime(), nullable=True, index=True)
+    date_created = Column(DateTime(), default=datetime.datetime.utcnow, nullable=False)
+    date_last_ephemeral_change = Column(DateTime(), nullable=True)
     item_id = Column(Integer, ForeignKey("item.id"), nullable=False)
     comments = relationship("ItemRevisionComment", backref="revision", cascade="all, delete, delete-orphan", order_by="ItemRevisionComment.date_created")
+
+Index('ix_itemrevision_created_date_item_id', ItemRevision.date_created, ItemRevision.item_id)
+Index('ix_itemrevision_date_last_ephemeral_change_item_id', ItemRevision.date_last_ephemeral_change, ItemRevision.item_id)
 
 
 class ItemRevisionComment(db.Model):
